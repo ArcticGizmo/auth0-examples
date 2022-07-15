@@ -18,8 +18,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-vue';
+import API from '../code/api';
 const { getAccessTokenSilently } = useAuth0();
 
 const token = ref(null);
@@ -29,29 +29,20 @@ getAccessTokenSilently()
   .catch(error => console.error(error));
 
 const onCallPublicApi = () => {
-  axios
-    .get('http://localhost:4000/public')
-    .then(resp => {
-      console.dir(resp);
-    })
+  API.getPublic()
+    .then(resp => console.dir(resp))
     .catch(e => console.error(e));
 };
 
 const onCallPrivateApi = () => {
-  axios
-    .get('http://localhost:4000/private')
-    .then(resp => {
-      console.dir(resp);
-    })
+  API.getPrivate()
+    .then(resp => console.dir(resp))
     .catch(e => console.error(e));
 };
 
 const onCallPrivateScopedApi = () => {
-  axios
-    .get('http://localhost:4000/private')
-    .then(resp => {
-      console.dir(resp);
-    })
+  API.getPrivateScoped()
+    .then(resp => console.dir(resp))
     .catch(e => console.error(e));
 };
 </script>
