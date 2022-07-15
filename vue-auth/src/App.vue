@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <Layout />
+    <Layout :routes="navRoutes" />
   </div>
 </template>
 
 <script setup>
 import Layout from './layout/Layout.vue';
+import { navRoutes } from './code/router';
 </script>
 
 <style>

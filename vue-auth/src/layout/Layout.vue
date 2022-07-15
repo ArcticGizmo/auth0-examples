@@ -2,8 +2,8 @@
   <div class="layout">
     <div class="nav-bar">
       <img src="logo.svg" />
-      <router-link v-for="route in routes" :key="route.path" :to="route.path">
-        <NavItem :name="route.name" :icon="route.meta.icon" />
+      <router-link v-for="route in visibleRoutes" :key="route.to" :to="{ name: route.to }">
+        <NavItem :name="route.title" :icon="route.icon" />
       </router-link>
     </div>
 
@@ -19,14 +19,25 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 
 import NavItem from './NavItem.vue';
 import LoginHeader from './LoginHeader.vue';
 
-import router from '../code/router';
+const props = defineProps({
+  routes: { type: Array, default: () => [] },
+});
 
-// TODO: change this to take in a list of route names for display
-const routes = computed(() => router.getRoutes().filter(r => !r.meta.hide));
+const { isAuthenticated } = useAuth0();
+
+const visibleRoutes = computed(() => {
+  const isAuthed = isAuthenticated.value;
+  if (isAuthed) {
+    return props.routes;
+  }
+
+  return props.routes.filter(r => r.visibleWithAuth !== true);
+});
 </script>
 
 <style>
