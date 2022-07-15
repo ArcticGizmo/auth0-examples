@@ -1,9 +1,11 @@
 import { createWebHistory, createRouter } from 'vue-router';
+import { authGuard } from '@auth0/auth0-vue';
 
 import HomePage from '../pages/HomePage.vue';
 import ProfilePage from '../pages/ProfilePage.vue';
+import SecurePage from '../pages/SecurePage.vue';
 
-const routes = [
+const publicRoutes = [
   {
     path: '/',
     redirect: '/home',
@@ -19,15 +21,30 @@ const routes = [
       icon: 'house',
     },
   },
+];
+
+const protectedRoutes = [
   {
     path: '/profile',
     name: 'Profile',
     component: ProfilePage,
     meta: {
-      icon: 'user',
+      hide: true,
+    },
+  },
+  {
+    path: '/secure',
+    name: 'Secure',
+    component: SecurePage,
+    meta: {
+      icon: 'shield',
     },
   },
 ];
+
+protectedRoutes.forEach(r => (r.beforeEnter = authGuard));
+
+const routes = publicRoutes.concat(protectedRoutes);
 
 const router = createRouter({
   history: createWebHistory(),

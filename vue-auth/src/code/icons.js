@@ -4,4 +4,5 @@ export {
   faCancel,
   faHome,
   faUser,
+  faShield
 } from '@fortawesome/free-solid-svg-icons';
