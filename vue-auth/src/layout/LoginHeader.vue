@@ -1,22 +1,22 @@
 <template>
   <div class="login-header">
     <button v-if="!isAuthenticated" @click="loginWithRedirect">Log In</button>
-    <Avatar :src="user.picture" />
+    <template v-else>
+      <Avatar :src="(user || {}).picture" @click="onToProfile" />
+      <button @click="logout">Log Out</button>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useRouter } from 'vue-router';
 
 import Avatar from '../components/Avatar.vue';
 
-const img = ref('default-avatar.png');
-
 const router = useRouter();
 
-const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
 const onToProfile = () => {
   router.push({ name: 'Profile' });
@@ -43,5 +43,9 @@ img {
   height: 3rem;
   width: 3rem;
   border-radius: 100%;
+}
+
+.avatar {
+  cursor: pointer;
 }
 </style>
