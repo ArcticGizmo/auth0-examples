@@ -28,10 +28,11 @@ button {
   cursor: pointer;
   min-width: 4rem;
   height: 1.5rem;
-  background-color: #3fb27f;
+  background-color: #877aff;
   box-shadow: none;
   border: none;
-  box-shadow: 1px 1px 2px grey;
+  border-radius: 3px;
+  color: whitesmoke;
 }
 
 button:hover {

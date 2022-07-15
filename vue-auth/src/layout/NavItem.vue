@@ -25,7 +25,7 @@ const props = defineProps({
   height: 3rem;
   margin: 0.5rem;
   padding: 0.5rem;
-  color: #3fb27f;
+  color: #877aff;
   background-color: #2f3136;
   border-radius: 2rem;
   transition: all 0.3s;
@@ -35,7 +35,7 @@ const props = defineProps({
 .nav-item:hover .icon {
   color: white;
   border-radius: 0.75rem;
-  background-color: #3fb27f;
+  background-color: #877aff;
 }
 
 .nav-item .nav-bar-tooltip {

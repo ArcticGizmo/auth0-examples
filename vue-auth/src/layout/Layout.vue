@@ -7,6 +7,8 @@
       </router-link>
     </div>
 
+    <header><LoginHeader /></header>
+
     <div class="page-wrapper">
       <div class="page">
         <router-view />
@@ -17,7 +19,9 @@
 
 <script setup>
 import { computed } from 'vue';
+
 import NavItem from './NavItem.vue';
+import LoginHeader from './LoginHeader.vue';
 
 import router from '../code/router';
 
@@ -47,6 +51,7 @@ body {
 
 .layout .nav-bar img {
   border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
   padding: 0.5rem;
 }
 
@@ -59,5 +64,12 @@ body {
   padding-top: 1rem;
   padding-bottom: 1.5rem;
   border-bottom: 0.1px solid gray;
+}
+
+.layout header {
+  margin-left: 4rem;
+  padding: 0 2rem;
+  height: 4rem;
+  background-color: #202225;
 }
 </style>
