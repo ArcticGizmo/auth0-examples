@@ -1,9 +1,12 @@
 <template>
   <div class="home-page">
     This is the home page
-
-    <div>token</div>
-    <div>{{ token }}</div>
+    <br>
+    <div>Access Token</div>
+    <code>{{ token }}</code>
+    <br>
+    <div>Id Token Claims</div>
+    <pre>{{ idTokenClaims }}</pre>
     <div>
       <button @click="onCallPublicApi">Call Public</button>
     </div>
@@ -20,7 +23,7 @@
 import { ref } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import API from '../code/api';
-const { getAccessTokenSilently } = useAuth0();
+const { getAccessTokenSilently, idTokenClaims } = useAuth0();
 
 const token = ref(null);
 
@@ -35,13 +38,13 @@ const onCallPublicApi = () => {
 };
 
 const onCallPrivateApi = () => {
-  API.getPrivate()
+  API.getPrivate(token.value)
     .then(resp => console.dir(resp))
     .catch(e => console.error(e));
 };
 
 const onCallPrivateScopedApi = () => {
-  API.getPrivateScoped()
+  API.getPrivateScoped(token.value)
     .then(resp => console.dir(resp))
     .catch(e => console.error(e));
 };

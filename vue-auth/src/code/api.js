@@ -9,16 +9,22 @@ class API {
     return resp.data;
   }
 
+  async authedGet(endpoint, token) {
+    const url = `${BASE}/${endpoint}`;
+    const resp = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
+    return resp.data;
+  }
+
   getPublic() {
     return this.get('public');
   }
 
-  getPrivate() {
-    return this.get('private');
+  getPrivate(token) {
+    return this.authedGet('private', token);
   }
 
-  getPrivateScoped() {
-    return this.get('private-scoped');
+  getPrivateScoped(token) {
+    return this.authedGet('private-scoped', token);
   }
 }
 
