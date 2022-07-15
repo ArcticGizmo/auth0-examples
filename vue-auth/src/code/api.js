@@ -2,7 +2,21 @@ import axios from 'axios';
 const PORT = 4000;
 const BASE = `http://localhost:${PORT}`;
 
+class UserMangement {
+  constructor(api) {
+    this._api = api;
+  }
+
+  getUsers(token) {
+    return this._api.authedGet('user-management/users', token);
+  }
+}
+
 class API {
+  constructor() {
+    this._userMangement = new UserMangement(this);
+  }
+
   async get(endpoint) {
     const url = `${BASE}/${endpoint}`;
     const resp = await axios.get(url);
@@ -25,6 +39,10 @@ class API {
 
   getPrivateScoped(token) {
     return this.authedGet('private-scoped', token);
+  }
+
+  get userManagement() {
+    return this._userMangement;
   }
 }
 
