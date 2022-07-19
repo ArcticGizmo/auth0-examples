@@ -1,19 +1,21 @@
 const express = require('express');
 const checkJwt = require('../code/auth.js');
-const { requiredScopes } = require('express-oauth2-jwt-bearer');
+const { requiredPermissions } = require('../code/permissions.js');
+const UserMangement = require('../code/user_management.js');
 
 const router = express.Router();
 
-function get(endpoint, scopes, callback) {
+function get(endpoint, permissions, callback) {
   if (!callback) {
-    callback = scopes;
-    scopes = [];
+    callback = permissions;
+    permissions = [];
   }
-  router.get(endpoint, checkJwt, requiredScopes(scopes), callback);
+  router.get(endpoint, checkJwt, requiredPermissions(permissions), callback);
 }
 
-get('/users', 'read:users', function (req, res, next) {
-  res.send('you can read users');
+get('/users', 'read:users', async function (req, res, next) {
+  const users = await UserMangement.getUsers();
+  res.send(users);
 });
 
 get('/update', 'manage:users', function (req, res, next) {
