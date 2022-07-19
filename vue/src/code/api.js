@@ -1,4 +1,6 @@
 import axios from 'axios';
+import AuthClient from './auth_client';
+
 const PORT = 4000;
 const BASE = `http://localhost:${PORT}`;
 
@@ -7,8 +9,20 @@ class UserMangement {
     this._api = api;
   }
 
-  getUsers(token) {
-    return this._api.authedGet('user-management/users', token);
+  getUsers() {
+    return this._api.authedGet('user-management/users');
+  }
+
+  getUser(userId) {
+    return this._api.authedGet(`user-management/user/${userId}`);
+  }
+
+  getRoles() {
+    return this._api.authedGet('user-management/roles');
+  }
+
+  getPermissions() {
+    return this._api.authedGet('user-management/permissions');
   }
 }
 
@@ -23,7 +37,8 @@ class API {
     return resp.data;
   }
 
-  async authedGet(endpoint, token) {
+  async authedGet(endpoint) {
+    const token = await AuthClient.getAccessTokenSilently();
     const url = `${BASE}/${endpoint}`;
     const resp = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
     return resp.data;
@@ -33,16 +48,16 @@ class API {
     return this.get('public');
   }
 
-  getPrivate(token) {
-    return this.authedGet('private', token);
+  getPrivate() {
+    return this.authedGet('private');
   }
 
-  getPrivateScoped(token) {
-    return this.authedGet('private-scoped', token);
+  getPrivateScoped() {
+    return this.authedGet('private-scoped');
   }
 
-  getPrivatePermissioned(token) {
-    return this.authedGet('private-permissioned', token);
+  getPrivatePermissioned() {
+    return this.authedGet('private-permissioned');
   }
 
   get userManagement() {

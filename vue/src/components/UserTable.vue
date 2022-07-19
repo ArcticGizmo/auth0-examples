@@ -61,7 +61,6 @@ const onEdit = user => {
 table {
   margin: 0 auto;
   width: 750px;
-  border: 1px solid orange;
   border-collapse: collapse;
 }
 

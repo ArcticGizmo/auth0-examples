@@ -8,20 +8,20 @@
 </template>
 
 <script setup>
-import { useAuth0 } from '@auth0/auth0-vue';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 import API from '../code/api';
 
 import UserTable from '@/components/UserTable.vue';
 
-const { getAccessTokenSilently } = useAuth0();
+const router = useRouter();
 
 const users = ref([]);
 
 const onGetUsers = async () => {
-  const token = await getAccessTokenSilently();
   API.userManagement
-    .getUsers(token)
+    .getUsers()
     .then(d => (users.value = d))
     .catch(e => console.error(e));
 };
@@ -30,7 +30,7 @@ onMounted(() => {
   onGetUsers();
 });
 
-const onEdit = () => {
-  console.log('--- on edit');
+const onEdit = async user => {
+  router.push(`/user-management/${user.user_id}`);
 };
 </script>

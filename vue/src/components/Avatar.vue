@@ -6,10 +6,12 @@
 </template>
 
 <script>
+import defaultAvatar from '@/assets/default-avatar.png';
+
 export default {
   props: {
     src: String,
-    fallback: { type: String, default: 'default-avatar.png' },
+    fallback: { type: String, default: defaultAvatar },
   },
   data() {
     return {

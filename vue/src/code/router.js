@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage.vue';
 import ProfilePage from '../pages/ProfilePage.vue';
 import SecurePage from '../pages/SecurePage.vue';
 import UserManagementPage from '../pages/UserManagementPage.vue';
+import UserPage from '../pages/UserPage.vue';
 
 const publicRoutes = [
   {
@@ -33,6 +34,11 @@ const protectedRoutes = [
     path: '/user-management',
     name: 'UserManagement',
     component: UserManagementPage,
+  },
+  {
+    path: '/user-management/:userId',
+    component: UserPage,
+    props: true,
   },
 ];
 

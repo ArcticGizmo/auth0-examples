@@ -8,7 +8,6 @@ import { $vfm } from 'vue-final-modal';
 import ExampleModal from '@/modals/ExampleModal.vue';
 
 const onClick = async () => {
-  console.dir('---- on click');
   await $vfm.show({ component: ExampleModal });
 };
 </script>

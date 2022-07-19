@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="nav-bar">
-      <img src="logo.svg" />
+      <img :src="logo" />
       <router-link v-for="route in visibleRoutes" :key="route.to" :to="{ name: route.to }">
         <NavItem :name="route.title" :icon="route.icon" />
       </router-link>
@@ -20,6 +20,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import logo from '@/assets/logo.svg';
 
 import NavItem from './NavItem.vue';
 import LoginHeader from './LoginHeader.vue';

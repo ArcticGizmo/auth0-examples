@@ -27,16 +27,16 @@ class UserMangement {
     return await this._client.getUsers(opts);
   }
 
-  async getUser(opts) {
-    return await this._client.getUser(opts);
+  async getUser(id) {
+    return await this._client.getUser({ id });
   }
 
   async getRoles() {
     return await this._client.getRoles();
   }
 
-  async getUserRoles(userId) {
-    return await this._client.getUserRoles(userId);
+  async getUserRoles(id) {
+    return await this._client.getUserRoles({ id });
   }
 
   async updateUserRoles(userId) {
@@ -45,8 +45,8 @@ class UserMangement {
     // this._client.assignRolestoUser()
   }
 
-  async getUserPermissions(userId) {
-    return await this._client.getUserPermissions(userId);
+  async getUserPermissions(id) {
+    return await this._client.getUserPermissions({ id });
   }
 
   async updateUserPermissions(userId) {
