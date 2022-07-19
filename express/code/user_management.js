@@ -31,6 +31,10 @@ class UserMangement {
     return await this._client.getUser(opts);
   }
 
+  async getRoles() {
+    return await this._client.getRoles();
+  }
+
   async getUserRoles(userId) {
     return await this._client.getUserRoles(userId);
   }
