@@ -1,6 +1,7 @@
 const express = require('express');
 const checkJwt = require('../code/auth.js');
 const { requiredScopes } = require('express-oauth2-jwt-bearer');
+const { requiredPermissions } = require('../code/permissions.js');
 
 const router = express.Router();
 
@@ -14,11 +15,20 @@ router.get('/public', function (req, res, next) {
 });
 
 router.get('/private', checkJwt, function (req, res, next) {
-  res.send('you must be authenticated');
+  res.send('you must be authorized');
 });
 
-router.get('/private-scoped', checkJwt, requiredScopes('read:messages'), function (req, res, next) {
-  res.send('you must be authenticated and have the read:messages scope');
+router.get('/private-scoped', checkJwt, requiredScopes('email'), function (req, res, next) {
+  res.send('you must have the email scope');
 });
+
+router.get(
+  '/private-permissioned',
+  checkJwt,
+  requiredPermissions('read:users'),
+  function (req, res, next) {
+    res.send('You must have permissions');
+  },
+);
 
 module.exports = router;

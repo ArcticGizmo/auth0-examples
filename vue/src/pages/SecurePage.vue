@@ -11,6 +11,10 @@
     <div>
       <button v-if="token" @click="onCallPrivateScopedApi">Call Private Scoped</button>
     </div>
+
+    <div>
+      <button v-if="token" @click="onCallPrivatePermissionedApi">Call Private Permissioned</button>
+    </div>
   </div>
 </template>
 
@@ -40,6 +44,13 @@ const onCallPrivateApi = () => {
 
 const onCallPrivateScopedApi = () => {
   API.getPrivateScoped(token.value)
+    .then(resp => console.dir(resp))
+    .catch(e => console.error(e));
+};
+
+
+const onCallPrivatePermissionedApi = () => {
+  API.getPrivatePermissioned(token.value)
     .then(resp => console.dir(resp))
     .catch(e => console.error(e));
 };

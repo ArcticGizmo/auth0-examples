@@ -9,7 +9,7 @@ let AUTH = null;
 if (AUTH == null) {
   AUTH = auth({
     audience,
-    issuerBaseURL: `https:/${domain}/`,
+    issuerBaseURL: `https://${domain}/`,
   });
 }
 

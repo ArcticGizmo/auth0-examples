@@ -41,6 +41,10 @@ class API {
     return this.authedGet('private-scoped', token);
   }
 
+  getPrivatePermissioned(token) {
+    return this.authedGet('private-permissioned', token);
+  }
+
   get userManagement() {
     return this._userMangement;
   }
