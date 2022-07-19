@@ -2,7 +2,6 @@
   "name": "vue-auth",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "serve": "vite --port 3000",
@@ -15,6 +14,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "3.0.1",
     "axios": "^0.27.2",
+    "humanize-duration": "^3.27.2",
     "vue": "^3.2.37",
     "vue-router": "^4.1.2"
   },
