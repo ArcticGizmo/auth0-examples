@@ -13,7 +13,17 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import * as allIcons from '../code/icons.js';
 
-const ICONS = Object.values(allIcons);
+function pascalToDashCase(s) {
+  return s.replace(/(?:^|\.?)([A-Z])/g, (x, y) => '-' + y.toLowerCase()).replace(/^-/, '');
+}
+
+const ICONS = Object.entries(allIcons).map(([key, icon]) => {
+  // trim leading 'fas' etc
+  var match = /[A-Z]/.exec(key);
+  const str = key.slice(match.index);
+  icon.iconName = pascalToDashCase(str);
+  return icon;
+});
 
 const LOOKUP = ICONS.reduce((acc, icon) => {
   acc[icon.iconName] = icon;
