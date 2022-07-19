@@ -46,7 +46,7 @@ const router = createRouter({
 });
 
 export const navRoutes = [
-  { to: 'Home', title: 'Home', icon: 'house' },
+  { to: 'Home', title: 'Home', icon: 'home' },
   { to: 'Secure', title: 'Secure', icon: 'shield' },
   { to: 'UserManagement', title: 'User Management', icon: 'people-roof', visibleWithAuth: true },
 ];
