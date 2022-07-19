@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <Layout :routes="navRoutes" />
+    <ModalsContainer />
   </div>
 </template>
 
 <script setup>
 import Layout from './layout/Layout.vue';
 import { navRoutes } from './code/router';
+import { ModalsContainer } from 'vue-final-modal';
 </script>
 
 <style>
