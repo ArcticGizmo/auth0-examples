@@ -52,12 +52,23 @@ const selectedPermissions = ref([]);
 const permissions = ref([]);
 
 const selectionChanged = computed(() => {
-  const sortedPerms = uniq(permissions.value);
-  const sortedSelectedPerms = uniq(selectedPermissions.value);
-  return (
-    sortedPerms.length !== sortedSelectedPerms.length ||
-    !sortedSelectedPerms.every(p => sortedPerms.includes(p))
-  );
+  const original = uniq(user.value.permissions);
+  const selected = uniq(selectedPermissions.value);
+
+  const oLength = original.length;
+  const sLength = selected.length;
+
+  if (oLength !== sLength) {
+    return true;
+  }
+
+  for (let i = 0; i < oLength; i++) {
+    if (original[i] !== selected[i]) {
+      return true;
+    }
+  }
+
+  return false;
 });
 
 const onReset = () => {
@@ -65,7 +76,9 @@ const onReset = () => {
 };
 
 const onSave = async () => {
-  await API.userManagement.setUserPermissions(user.value.user_id, selectedPermissions.value);
+  const perms = permissions.value.slice();
+  await API.userManagement.setUserPermissions(user.value.user_id, perms);
+  user.value.permissions = perms;
   toaster.success('User permissions saved');
 };
 
