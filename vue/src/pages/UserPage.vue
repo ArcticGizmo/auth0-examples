@@ -16,8 +16,8 @@
           <OptionsGrid v-model="selectedPermissions" :options="permissions" />
         </div>
         <div class="actions">
-          <button :disabled="!canReset" @click="onReset">Reset</button>
-          <button @click="onSave">Save</button>
+          <button :disabled="!selectionChanged" @click="onReset">Reset</button>
+          <button :disabled="!selectionChanged" @click="onSave">Save</button>
         </div>
       </div>
     </ErrorHandler>
@@ -33,6 +33,7 @@ import Avatar from '../components/Avatar.vue';
 
 import API from '@/code/api';
 import OptionsGrid from '../components/OptionsGrid.vue';
+import { useToaster } from '../code/toaster';
 
 function uniq(arr) {
   return [...new Set(arr)].sort();
@@ -42,13 +43,15 @@ const { userId } = defineProps({
   userId: String,
 });
 
+const toaster = useToaster();
+
 const loading = ref(true);
 const error = ref(null);
 const user = ref(null);
 const selectedPermissions = ref([]);
 const permissions = ref([]);
 
-const canReset = computed(() => {
+const selectionChanged = computed(() => {
   const sortedPerms = uniq(permissions.value);
   const sortedSelectedPerms = uniq(selectedPermissions.value);
   return (
@@ -62,10 +65,8 @@ const onReset = () => {
 };
 
 const onSave = async () => {
-  const resp = await API.userManagement.setUserPermissions(
-    user.value.user_id,
-    selectedPermissions.value,
-  );
+  await API.userManagement.setUserPermissions(user.value.user_id, selectedPermissions.value);
+  toaster.success('User permissions saved');
 };
 
 Promise.all([API.userManagement.getUser(userId), API.userManagement.getPermissions()])

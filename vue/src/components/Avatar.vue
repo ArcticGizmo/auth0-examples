@@ -18,11 +18,9 @@ export default {
       imgData: null,
     };
   },
-
   created() {
     this.setFallback();
   },
-
   methods: {
     setFallback() {
       this.imgData = this.fallback;
