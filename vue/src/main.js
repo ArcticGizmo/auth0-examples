@@ -1,4 +1,5 @@
 import '@/assets/css/modal.css';
+import '@/assets/css/toast.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './code/router';
