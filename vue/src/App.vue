@@ -36,9 +36,16 @@ button {
   border: none;
   border-radius: 3px;
   color: whitesmoke;
+  user-select: none;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   opacity: 0.9;
+}
+
+button:disabled {
+  cursor: default;
+  pointer-events: none;
+  background-color: #b3aaff;
 }
 </style>

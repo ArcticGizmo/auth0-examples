@@ -24,6 +24,10 @@ class UserMangement {
   getPermissions() {
     return this._api.authedGet('user-management/permissions');
   }
+
+  setUserPermissions(userId, permissions) {
+    return this._api.authedPost(`user-management/user/${userId}`, { permissions });
+  }
 }
 
 class API {
@@ -40,7 +44,16 @@ class API {
   async authedGet(endpoint) {
     const token = await AuthClient.getAccessTokenSilently();
     const url = `${BASE}/${endpoint}`;
-    const resp = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const resp = await axios.get(url, config);
+    return resp.data;
+  }
+
+  async authedPost(endpoint, params) {
+    const token = await AuthClient.getAccessTokenSilently();
+    const url = `${BASE}/${endpoint}`;
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const resp = await axios.post(url, params, config);
     return resp.data;
   }
 

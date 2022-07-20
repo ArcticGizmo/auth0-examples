@@ -11,6 +11,25 @@ const SCOPES = [
   'delete:role_members',
 ];
 
+function separatePermissions(newPermissions, oldPermissions) {
+  if (newPermissions.length === 0) {
+    return { toRemove: oldPermissions, toAdd: [] };
+  }
+
+  if (oldPermissions.length === 0) {
+    return { toRemove: [], toAdd: newPermissions };
+  }
+
+  const toAdd = newPermissions.filter(p => !oldPermissions.includes(p));
+  const toRemove = oldPermissions.filter(p => !newPermissions.includes(p));
+
+  return { toRemove, toAdd };
+}
+
+function toSendablePermissions(permissions, audience) {
+  return permissions.map(p => ({ permission_name: p, resource_server_identifier: audience }));
+}
+
 class UserMangement {
   constructor() {
     const env = process.env;
@@ -21,6 +40,7 @@ class UserMangement {
       clientSecret: env['AUTH0_CLIENT_SECRET'],
       scope: SCOPES.join(' '),
     });
+    this._audience = env['AUTH0_AUDIENCE'];
   }
 
   async getUsers(opts) {
@@ -39,7 +59,7 @@ class UserMangement {
     return await this._client.getUserRoles({ id });
   }
 
-  async updateUserRoles(userId) {
+  async setUserRoles(userId, roles) {
     // some combination of
     // this._client.removeRolesFromUser();
     // this._client.assignRolestoUser()
@@ -49,10 +69,43 @@ class UserMangement {
     return await this._client.getUserPermissions({ id });
   }
 
-  async updateUserPermissions(userId) {
-    // some combination of
-    // this._client.removePermissionsFromUser()
-    // this._client.assignPermissionsToUser()
+  async setUserPermissions(userId, permissions) {
+    const oldPermissions = (await this.getUserPermissions(userId)).map(p => p.permission_name);
+
+    const { toRemove, toAdd } = separatePermissions(permissions, oldPermissions);
+
+    if (toRemove.length === 0 && toAdd.length === 0) {
+      return;
+    }
+
+    return await Promise.all([
+      this.addUserPermissions(userId, toAdd),
+      this.removeUserPermissions(userId, toRemove),
+    ]);
+  }
+
+  async removeUserPermissions(userId, permissions) {
+    if (permissions.length === 0) {
+      return;
+    }
+
+    const resp = await this._client.removePermissionsFromUser(
+      { id: userId },
+      { permissions: toSendablePermissions(permissions, this._audience) },
+    );
+    return resp;
+  }
+
+  async addUserPermissions(userId, permissions) {
+    if (permissions.length === 0) {
+      return;
+    }
+
+    const resp = await this._client.assignPermissionsToUser(
+      { id: userId },
+      { permissions: toSendablePermissions(permissions, this._audience) },
+    );
+    return resp;
   }
 }
 
