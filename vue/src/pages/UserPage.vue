@@ -1,25 +1,26 @@
 <template>
   <AsyncPage :loading="loading">
-    <ErrorHandler v-if="error" :error="error" />
-    <div v-else-if="!user" class="no-user">User not found</div>
-    <div v-else class="user-page">
-      <div class="heading">
-        <Avatar :src="user.picture" />
-        <div class="text">
-          <div class="email">{{ user.email }}</div>
-          <div class="user-id">
-            user_id: <code>{{ user.user_id }}</code>
+    <ErrorHandler :error="error">
+      <div v-if="!user" class="no-user">User not found</div>
+      <div v-else class="user-page">
+        <div class="heading">
+          <Avatar :src="user.picture" />
+          <div class="text">
+            <div class="email">{{ user.email }}</div>
+            <div class="user-id">
+              user_id: <code>{{ user.user_id }}</code>
+            </div>
           </div>
         </div>
+        <div class="permissions">
+          <OptionsGrid v-model="selectedPermissions" :options="permissions" />
+        </div>
+        <div class="actions">
+          <button :disabled="!canReset" @click="onReset">Reset</button>
+          <button @click="onSave">Save</button>
+        </div>
       </div>
-      <div class="permissions">
-        <OptionsGrid v-model="selectedPermissions" :options="permissions" />
-      </div>
-      <div class="actions">
-        <button :disabled="!canReset" @click="onReset">Reset</button>
-        <button @click="onSave">Save</button>
-      </div>
-    </div>
+    </ErrorHandler>
   </AsyncPage>
 </template>
 
@@ -65,7 +66,6 @@ const onSave = async () => {
     user.value.user_id,
     selectedPermissions.value,
   );
-  console.dir(resp);
 };
 
 Promise.all([API.userManagement.getUser(userId), API.userManagement.getPermissions()])

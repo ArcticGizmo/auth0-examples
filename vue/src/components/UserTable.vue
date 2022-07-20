@@ -59,9 +59,8 @@ const onEdit = user => {
 
 <style scoped>
 table {
-  margin: 0 auto;
-  width: 750px;
   border-collapse: collapse;
+  width: 100%;
 }
 
 tr {

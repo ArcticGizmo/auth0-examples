@@ -1,22 +1,24 @@
 <template>
-  <div class="error-handler">
+  <div v-if="error" class="error-handler">
     <div v-if="isUnauthorized" class="unauthorized">
       <Icon icon="lock" />
       <div>Unauthorized</div>
     </div>
+    <div v-else>{{ error }}</div>
   </div>
+  <slot v-else></slot>
 </template>
 
 <script setup>
 import { computed } from '@vue/runtime-core';
 
-const { error } = defineProps({
+const props = defineProps({
   error: Object,
 });
 
 const isUnauthorized = computed(() => {
   try {
-    return error.response.status === 403;
+    return props.error.response.status === 403;
   } catch {
     return false;
   }
