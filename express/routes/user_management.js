@@ -31,12 +31,14 @@ get('/users', 'read:users', async function (req, res, next) {
 get('/user/:userId', 'read:users', async function (req, res, next) {
   const userId = req.params.userId;
 
-  const [user, permissions] = await Promise.all([
+  const [user, permissions, orgs] = await Promise.all([
     UserMangement.getUser(userId),
     UserMangement.getUserPermissions(userId),
+    UserMangement.getUserOrganizations(userId),
   ]);
 
   user.permissions = permissions.map(p => p.permission_name);
+  user.organizations = orgs;
   res.send(user);
 });
 
@@ -60,6 +62,11 @@ get('/permissions', async function (req, res, next) {
 
 get('/update', 'manage:users', function (req, res, next) {
   res.send('you can manage users');
+});
+
+get('/organizations', async function (req, res, next) {
+  const resp = await UserMangement.getOrganizations();
+  res.send(resp);
 });
 
 module.exports = router;
