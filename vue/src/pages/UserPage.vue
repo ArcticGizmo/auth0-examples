@@ -12,12 +12,22 @@
             </div>
           </div>
         </div>
-        <div class="permissions">
-          <OptionsGrid v-model="selectedPermissions" :options="permissions" />
+        <div class="section">
+          <div class="title">Permissions</div>
+          <div class="permissions">
+            <OptionsGrid v-model="selectedPermissions" :options="permissions" />
+          </div>
         </div>
+
         <div class="actions">
           <button :disabled="!selectionChanged" @click="onReset">Reset</button>
           <button :disabled="!selectionChanged" @click="onSave">Save</button>
+        </div>
+        <div class="section">
+          <div class="title">Organizations</div>
+          <div class="organizations">
+            <OrgCard v-for="(org, index) in user.organizations" :key="index" :org="org" />
+          </div>
         </div>
       </div>
     </ErrorHandler>
@@ -34,6 +44,7 @@ import Avatar from '../components/Avatar.vue';
 import API from '@/code/api';
 import OptionsGrid from '../components/OptionsGrid.vue';
 import { useToaster } from '../code/toaster';
+import OrgCard from '../components/OrgCard.vue';
 
 function uniq(arr) {
   return [...new Set(arr)].sort();
@@ -126,6 +137,15 @@ Promise.all([API.userManagement.getUser(userId), API.userManagement.getPermissio
   padding: 0.25rem;
 }
 
+.section {
+  margin: 1rem 0;
+}
+
+.section .title {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
 code {
   background: rgba(128, 128, 128, 0.103);
   padding: 0.25rem;
@@ -142,5 +162,10 @@ code {
 
 .actions > * {
   margin-left: 0.25rem;
+}
+
+.organizations {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

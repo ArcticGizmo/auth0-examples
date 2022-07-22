@@ -20,8 +20,8 @@ import { useRouter } from 'vue-router';
 import API from '../code/api';
 
 import UserTable from '@/components/UserTable.vue';
-import ErrorHandler from '../errors/ErrorHandler.vue';
-import OrgCard from '../components/OrgCard.vue';
+import ErrorHandler from '@/errors/ErrorHandler.vue';
+import OrgCard from '@/components/OrgCard.vue';
 
 const router = useRouter();
 
