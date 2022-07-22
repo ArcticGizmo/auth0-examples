@@ -117,7 +117,7 @@ class UserMangement {
   }
 
   async getOrganizations() {
-    return this.organizations.getAll();
+    return this._client.getOrganizations();
   }
 
   async getUserOrganizations(id) {

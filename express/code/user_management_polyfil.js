@@ -5,7 +5,12 @@ const RetryRestClient = require('auth0/src/RetryRestClient');
 const BASE_URL_FORMAT = 'https://%s/api/v2';
 
 function addMissingEndpoints(client, domain) {
+  addGetOrganizations(client);
   addGetUserOrganizations(client, domain);
+}
+
+function addGetOrganizations(client) {
+  client.getOrganizations = client.organizations.getAll;
 }
 
 function addGetUserOrganizations(client, domain) {
