@@ -28,6 +28,10 @@ class UserMangement {
   setUserPermissions(userId, permissions) {
     return this._api.authedPost(`user-management/user/${userId}`, { permissions });
   }
+
+  getOrganizations() {
+    return this._api.authedGet('user-management/organizations');
+  }
 }
 
 class API {

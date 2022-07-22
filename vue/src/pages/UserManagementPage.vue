@@ -1,8 +1,14 @@
 <template>
   <ErrorHandler :error="error">
     <div class="user-management-page">
-      <UserTable :users="users" @edit="onEdit" />
-      <div class="refresh"><button @click="onGetUsers">Refresh</button></div>
+      <div class="users">
+        <UserTable :users="users" @edit="onEdit" />
+        <div class="refresh"><button @click="onGetUsers">Refresh</button></div>
+      </div>
+      <div class="organizations">
+        <OrgCard v-for="(org, index) in orgs" :key="index" :org="org" />
+      </div>
+      <div class="refresh"><button @click="onGetOrgs">Refresh</button></div>
     </div>
   </ErrorHandler>
 </template>
@@ -15,11 +21,13 @@ import API from '../code/api';
 
 import UserTable from '@/components/UserTable.vue';
 import ErrorHandler from '../errors/ErrorHandler.vue';
+import OrgCard from '../components/OrgCard.vue';
 
 const router = useRouter();
 
 const error = ref();
 const users = ref([]);
+const orgs = ref([]);
 
 const onGetUsers = async () => {
   API.userManagement
@@ -28,8 +36,14 @@ const onGetUsers = async () => {
     .catch(e => (error.value = e));
 };
 
+const onGetOrgs = async () => {
+  const resp = await API.userManagement.getOrganizations();
+  orgs.value = resp;
+};
+
 onMounted(() => {
   onGetUsers();
+  onGetOrgs();
 });
 
 const onEdit = async user => {
@@ -47,5 +61,10 @@ const onEdit = async user => {
   margin: 0.25rem;
   display: flex;
   justify-content: flex-end;
+}
+
+.organizations {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
