@@ -2,6 +2,7 @@
   <div class="login-header">
     <button v-if="!isAuthenticated" @click="loginWithRedirect">Log In</button>
     <template v-else>
+      <code>{{ user.org_id || 'No Org' }}</code>
       <Avatar :src="(user || {}).picture" @click="onToProfile" />
       <button @click="logout">Log Out</button>
     </template>
@@ -47,5 +48,12 @@ img {
 
 .avatar {
   cursor: pointer;
+}
+
+code {
+  color: white;
+  background-color: rgb(66, 66, 66);
+  padding: 0.5rem;
+  margin-right: 0.5rem;
 }
 </style>
