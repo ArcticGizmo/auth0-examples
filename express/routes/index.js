@@ -2,6 +2,7 @@ const express = require('express');
 const checkJwt = require('../code/auth.js');
 const { requiredScopes } = require('express-oauth2-jwt-bearer');
 const { requiredPermissions } = require('../code/permissions.js');
+const UserMangement = require('../code/user_management.js');
 
 const router = express.Router();
 
@@ -30,5 +31,11 @@ router.get(
     res.send('You must have permissions');
   },
 );
+
+router.get('/my-organizations', checkJwt, async function (req, res, next) {
+  const sub = req.auth.payload.sub;
+  const orgs = await UserMangement.getUserOrganizations(sub);
+  res.send(orgs);
+});
 
 module.exports = router;

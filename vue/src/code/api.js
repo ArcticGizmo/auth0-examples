@@ -77,6 +77,10 @@ class API {
     return this.authedGet('private-permissioned');
   }
 
+  getUserOrganizations() {
+    return this.authedGet('my-organizations');
+  }
+
   get userManagement() {
     return this._userMangement;
   }
